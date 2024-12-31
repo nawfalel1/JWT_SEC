@@ -1,7 +1,7 @@
 package com.nelachar.sgi.auth;
 
 
-import com.nelachar.sgi.UserRepository;
+import com.nelachar.sgi.user.UserRepository;
 import com.nelachar.sgi.config.JwtService;
 import com.nelachar.sgi.user.Role;
 import com.nelachar.sgi.user.User;
@@ -24,7 +24,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
-                .email(request.getEmail())
+                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
@@ -39,11 +39,11 @@ public class AuthenticationService {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        request.getUsername(),
                         request.getPassword()
                 )
         );
-        var user = repository.findByEmail(request.getEmail()).orElseThrow();
+        var user = repository.findByUsername(request.getUsername()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

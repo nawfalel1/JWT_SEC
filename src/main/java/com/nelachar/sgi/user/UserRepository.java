@@ -1,4 +1,4 @@
-package com.nelachar.sgi;
+package com.nelachar.sgi.user;
 
 import com.nelachar.sgi.user.User;
 import org.hibernate.type.descriptor.converter.spi.JpaAttributeConverter;
@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
 
-     Optional<User> findByEmail(String email);
+     Optional<User> findByUsername(String email);
 }
